@@ -1,0 +1,73 @@
+{
+  "startup": {
+    "GET /api": "PASS (200 OK)",
+    "GET /api/health": "PASS (200 OK)"
+  },
+  "connection": {
+    "Vite Proxy -> Flask": "PASS",
+    "CORS Header Present": "PASS"
+  },
+  "signup": {
+    "Valid Signup": "PASS (201 Created)",
+    "Duplicate Rejection": "PASS (409 Conflict)",
+    "Missing Fields Rejection": "PASS (400 Bad Request)",
+    "Invalid Email Rejection": "PASS (400 Bad Request)",
+    "Password Mismatch Rejection": "PASS (400 Bad Request)"
+  },
+  "login": {
+    "Valid Credentials": "PASS (200 OK + Token)",
+    "Pre-seeded Admin Login": "PASS (200 OK)",
+    "Invalid Password Rejection": "PASS (401 Unauthorized)",
+    "Nonexistent Account Rejection": "PASS (401 Unauthorized)",
+    "Empty Fields Rejection": "PASS (400 Bad Request)"
+  },
+  "logout": {
+    "POST /api/auth/logout": "PASS (200 OK)"
+  },
+  "dashboard": {
+    "GET /api/dashboard": "PASS (total_cases: 4)",
+    "GET /api/dashboard/stats": "PASS (200 OK)"
+  },
+  "case_creation": {
+    "Case Creation": "PASS (FCIS-0005 ID: 5)",
+    "Validation of Required Fields": "PASS (400 Bad Request)"
+  },
+  "case_retrieval": {
+    "GET /api/cases": "PASS (5 case(s) retrieved)",
+    "GET /api/cases/<id>": "PASS (exact match)"
+  },
+  "case_update": {
+    "PUT /api/cases/<id>": "PASS (status updated to investigating)"
+  },
+  "evidence_upload": {
+    "PDF Upload": "PASS (201 Created)",
+    "TXT Upload": "PASS (201 Created)",
+    "Executable File Rejection": "PASS (Blocked)",
+    "GET /api/cases/<id>/evidence": "PASS (2 files verified)"
+  },
+  "investigation": {
+    "POST /api/cases/<id>/investigation": "PASS (Status: Completed)",
+    "GET /api/cases/<id>/investigation": "PASS"
+  },
+  "ai_chat": {
+    "Case Summary Query": "PASS (Grounded in telemetry)",
+    "Evidence Query": "PASS (Attached files analyzed)",
+    "Empty Message Rejection": "PASS (400 Bad Request)",
+    "Long Message Query": "PASS (Handled gracefully)",
+    "Suspicious Indicators Query": "PASS"
+  },
+  "report": {
+    "POST /api/cases/<id>/report": "PASS (Report REP-0005 generated)",
+    "GET /api/cases/<id>/report": "PASS (All details preserved)"
+  },
+  "error_handling": {
+    "Nonexistent Route (404)": "PASS (JSON response)",
+    "Invalid Case ID (404)": "PASS",
+    "Malformed JSON Handling": "PASS (400 Bad Request)"
+  },
+  "security": {
+    "Password Leak Prevention": "PASS (Never exposed)",
+    "AI API Key Protection": "PASS (Server-side only)",
+    "Executable Upload Restriction": "PASS (.exe, .sh, .bat blocked)"
+  }
+}
