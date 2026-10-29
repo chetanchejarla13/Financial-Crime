@@ -3,9 +3,15 @@
  * Connects React frontend directly to the Flask REST API & SQL Database.
  * No dummy or simulated fake data is generated.
  */
+// Normalize API_BASE_URL so it reliably routes to /api both locally and when deployed
+const getBaseUrl = () => {
+  const envUrl = (import.meta.env.VITE_API_URL || '').trim();
+  if (!envUrl) return '/api';
+  const clean = envUrl.replace(/\/+$/, '');
+  return clean.endsWith('/api') ? clean : `${clean}/api`;
+};
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
-
+const API_BASE_URL = getBaseUrl();
 /**
  * Helper to handle fetch requests with standard error handling and auth headers
  */
