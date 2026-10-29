@@ -33,7 +33,7 @@ def create_app(config_class=Config):
     # Enable CORS for React frontend
     CORS(
         app,
-        resources={r"/api/*": {"origins": "*"}},
+        resources={r"/*": {"origins": "*"}},
         supports_credentials=True,
         allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
@@ -66,6 +66,7 @@ def create_app(config_class=Config):
                 db.session.rollback()
 
     # ---------------- API Health & Root Verification ----------------
+    @app.route('/', methods=['GET'])
     @app.route('/api', methods=['GET'])
     @app.route('/api/', methods=['GET'])
     def api_root():
@@ -73,7 +74,11 @@ def create_app(config_class=Config):
         API Health verification endpoint.
         Returns {"status": "ok"} as required.
         """
-        return jsonify({"status": "ok"}), 200
+        return jsonify({
+            "status": "ok",
+            "message": "Financial Crime Investigation System API is running",
+            "service": "Flask REST API (SQLite)"
+        }), 200
 
     @app.route('/api/health', methods=['GET'])
     def api_health():
